@@ -9,6 +9,8 @@ LiquidCrystal_I2C lcd(0x3E,2,1,0,4,5,6,7); // 0x27 is the default I2C bus addres
 int hall_pin = 2;
 // set number of hall trips for RPM reading (higher improves accuracy)
 
+float radius_wheel = 17;
+
 const int meanSize = 1;
 float lastMeasures[meanSize];
 int pointer = 0;
@@ -88,11 +90,16 @@ void mean_speed(){
 
   float duration_mili = sum/meanSize;
   float rpm = 60000000/duration_mili;
+  float rcf = 1.118 * rpm*rpm*radius_wheel/100000;
     
   Serial.println(rpm );
   lcd.clear(); // Set cursor to 0,0
   lcd.print("rpm : ");
   lcd.print(rpm);
+  
+  lcd.setCursor(0, 1);
+  lcd.print("rcf : ");
+  lcd.print(rcf);
   }
 
 void printInfo(){
