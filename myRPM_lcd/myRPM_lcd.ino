@@ -59,7 +59,7 @@ void loop() {
         start = now;
         
 
-        if (time_refresh>min_refresh_period){
+        if ((millis()-time_refresh)>min_refresh_period){
           mean_speed();
           time_refresh = millis();
           }
@@ -101,11 +101,11 @@ void mean_speed(){
   Serial.println(rpm );
   lcd.clear(); // Set cursor to 0,0
   lcd.print("rpm : ");
-  lcd.print(rpm);
+  lcd.print(int(rpm));
   
   lcd.setCursor(0, 1);
   lcd.print("rcf : ");
-  lcd.print(rcf);
+  lcd.print(int(rcf));
   }
 
 void printInfo(){
