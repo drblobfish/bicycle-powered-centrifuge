@@ -45,35 +45,30 @@ float start = micros();
 float time_last_refresh = millis();
 float min_refresh_period = 500;
 
-void loop() {  
+void loop() {
+  if (digitalRead(hall_pin)==0){ // if we sense the magnet
+    if (on_state==false){// if we previously didn't sense it
 
-  while(true){
-    if (digitalRead(hall_pin)==0){ // if we sense the magnet
-      if (on_state==false){// if we previously didn't sense it
+      float now = micros();
+      
+      lastMeasures[pointer]= now-start;// we put the duration of one rotation in the array
+      start = now;
+      
+      pointer +=1;// increment the pointer or put it to 0
+      if (pointer == meanSize){
+        pointer = 0;
+        }
+      on_state = true;//put in memory that we are sensing the magnet
 
-        float now = micros();
-        
-        lastMeasures[pointer]= now-start;// we put the duration of one rotation in the array
-        start = now;
-        
-        pointer +=1;// increment the pointer or put it to 0
-        if (pointer == meanSize){
-          pointer = 0;
-          }
-        on_state = true;//put in memory that we are sensing the magnet
-
-        if ((millis()-time_last_refresh)>min_refresh_period){
-          //if duration since the last refresh of the screen is bigger than 0.5 sec
-          mean_speed(); //refresh the screen
-          time_last_refresh = millis();
-          }
-        
-        break;
-        
-      }
-    } else{
-      on_state = false;
+      if ((millis()-time_last_refresh)>min_refresh_period){
+        //if duration since the last refresh of the screen is bigger than 0.5 sec
+        mean_speed(); //refresh the screen
+        time_last_refresh = millis();
+        }
+      
     }
+  } else{
+    on_state = false;
   }
 }
 
