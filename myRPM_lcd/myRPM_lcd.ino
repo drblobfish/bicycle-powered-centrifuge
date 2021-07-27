@@ -31,6 +31,9 @@ void setup() {
 
 float start = micros();
 
+float time_refresh = millis();
+float min_refresh_period = 500;
+
 void loop() {
   
   // put your main code here, to run repeatedly:
@@ -55,9 +58,12 @@ void loop() {
         lastMeasures[pointer]= now-start;
         start = now;
         
-        //printLastMeasures();
-        //printInfo();
-        mean_speed();
+
+        if (time_refresh>min_refresh_period){
+          mean_speed();
+          time_refresh = millis();
+          }
+        
         
         pointer +=1;
         if (pointer == meanSize){
