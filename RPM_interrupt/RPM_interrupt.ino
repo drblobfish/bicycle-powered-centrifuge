@@ -47,7 +47,7 @@ void setup()
 
    counter = 0;
 
-   Serial.print("RPM=");
+   //Serial.print("RPM=");
 
    Serial.println(rpm); //Print out result to monitor
 
