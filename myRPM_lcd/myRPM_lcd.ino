@@ -36,6 +36,11 @@ void setup() {
    lcd.begin (16,2); // 16 x 2 LCD module
    lcd.setBacklightPin(3,POSITIVE); // BL, BL_POL
    lcd.setBacklight(HIGH);
+
+   
+  lcd.print("rpm : ");
+  lcd.setCursor(0, 1);
+  lcd.print("rcf : ");
 }
 
 // start is the time in microsecond of the last time the sensor started sensing the magnet
@@ -43,7 +48,7 @@ float start = micros();
 
 // we store the time in millisecond of the last time the lcd screen was refreshed
 float time_last_refresh = millis();
-float min_refresh_period = 500;
+float min_refresh_period = 2000;
 
 void loop() {
   if (digitalRead(hall_pin)==0){ // if we sense the magnet
@@ -94,11 +99,9 @@ void mean_speed(){
 
   //print everything on the lcd screen
   Serial.println(rpm );
-  lcd.clear();
-  lcd.print("rpm : ");
+  lcd.setCursor(6, 0);
   lcd.print(int(rpm));
   //second line
-  lcd.setCursor(0, 1);
-  lcd.print("rcf : ");
+  lcd.setCursor(6, 1);
   lcd.print(int(rcf));
   }

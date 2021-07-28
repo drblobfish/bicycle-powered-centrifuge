@@ -28,58 +28,19 @@ void loop() {
   // but without double counting during the same trip
   
   
+  if (digitalRead(hall_pin)==0){
+    if (on_state==false){
 
-  while(true){
-    if (digitalRead(hall_pin)==0){
-      if (on_state==false){
+      float now = micros();
 
-        float now = micros();
+      Serial.println( (60000000/(now-start)));
 
-        //Serial.println(now);
-        //Serial.println(start);
-        //Serial.println(now-start);
-        
-        lastMeasures[pointer]= now-start;
-        start = now;
-        
-        //printLastMeasures();
-        //printInfo();
-        mean_speed();
-        
-        pointer +=1;
-        if (pointer == meanSize){
-          pointer = 0;
-          }
-        on_state = true;
-        
-        break;
-        
-      }
-    } else{
-      on_state = false;
+      start = now;
+      
+      on_state = true;
+      
     }
+  } else{
+    on_state = false;
   }
 }
-
-void printLastMeasures(){
-  for (int i=0;i<meanSize;i++){
-    Serial.print(lastMeasures[i]);
-    Serial.print(",");
-    }
-    Serial.println("");
-  }
-
-void mean_speed(){
-  float sum = 0;
-  for (int i=0;i<meanSize;i++){
-    sum += lastMeasures[i];
-    }
-
-  float duration_mili = sum/meanSize;
-    
-  Serial.println( 60000000/duration_mili);
-  }
-
-void printInfo(){
-    //float time_passed = ((end_time-start)/1000000.0);
-  }
