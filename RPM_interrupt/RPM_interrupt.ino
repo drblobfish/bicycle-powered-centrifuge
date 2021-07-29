@@ -1,3 +1,13 @@
+#include <LCD_I2C.h>
+
+#include "Wire.h" // For I2C
+#include "LCD.h" // For LCD
+//#include "LiquidCrystal_I2C.h" // Added library
+//#include <LiquidCrystal_I2C.h>
+
+//LCD_I2C lcd(0x3E,16,2); // 0x3E is the I2C bus address of the backpack
+//LCD_I2C lcd(0x3E);
+
 int hallsensor = 2;                // Hall sensor at pin 2
 
 volatile byte counter;
@@ -28,6 +38,11 @@ void setup()
 
    pinMode(hallsensor, INPUT); //Sets hallsensor as input
 
+   //lcd.begin (); // 16 x 2 LCD module
+   //lcd.init();
+   //lcd.setBacklightPin(3,POSITIVE); // BL, BL_POL
+   //lcd.backlight();
+
    counter = 0;
 
    rpm = 0;
@@ -50,6 +65,10 @@ void setup()
    //Serial.print("RPM=");
 
    Serial.println(rpm); //Print out result to monitor
+/*
+   lcd.clear();
+   lcd.print("RPM=");
+   lcd.print(rpm);*/
 
    attachInterrupt(0, isr, RISING);   //Restart the interrupt processing
 
